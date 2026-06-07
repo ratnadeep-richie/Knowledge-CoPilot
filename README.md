@@ -10,11 +10,4 @@ Each query passes through six stages, visible live in the sidebar:
 #StageWhat happens1Query RewritingClaude rephrases your query for better retrieval precision2HyDE GenerationClaude writes a hypothetical ideal answer; its tokens expand the retrieval signal3Hybrid RetrievalBM25 sparse scoring + dense cosine similarity rank all chunks; top 8 selected4RerankingA cross-encoder rescores the 8 candidates; top 5 passed to generation5Grounded GenerationClaude answers using only retrieved context, citing sources as [1] [2]6Faithfulness CheckClaude scores its own answer 0–100% based on support from the retrieved chunks
 Documents are semantically chunked on paragraph and sentence boundaries (~600 chars/chunk), preserving meaning better than fixed-size windows.
 
-Stack
 
-Frontend — React (no external UI libraries)
-Retrieval — BM25 + dense cosine, cross-encoder reranking (all client-side JS)
-Generation & Evaluation — Anthropic Claude API (claude-sonnet-4-20250514)
-
-Toggles
-ToggleEffectHyDEHypothetical document expansion before retrievalRerankingCross-encoder precision pass on retrieved chunksFaithfulnessPost-generation grounding scoreShow TracePer-response log of what each stage returned
